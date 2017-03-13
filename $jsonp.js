@@ -1,8 +1,12 @@
 //原生跨域插件
 
 ;(function(window,document){
-	var jsonp = function(url,data,callback){
-
+	var jsonp = function(url,options,callback){
+			if(typeof options === 'function'){
+				callback = options;
+				options = {};
+			}
+			
 			var cbFuncName = 'jsonp_cb' + Math.random().toString().replace('.','');
 
 			window[cbFuncName] = (function(){
@@ -21,8 +25,8 @@
 
 			var queryString = url.indexOf('?') === -1 ? '?' : '&';
 			
-			for(var key in data){
-				queryString += key + '=' + data[key] + '&' ;
+			for(var key in options){
+				queryString += key + '=' + options[key] + '&' ;
 			};
 
 			queryString += 'callback=' + cbFuncName;
